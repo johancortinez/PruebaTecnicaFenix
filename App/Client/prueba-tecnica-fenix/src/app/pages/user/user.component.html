@@ -1,0 +1,205 @@
+<div class="container">
+    <form [formGroup]="form_user">
+        <div class="row">
+            <div class="col s12 center-align">
+                <h3>Usuarios</h3>
+            </div>
+            <div class="col s12">
+                <div class="right-align">
+                    <label >
+                        <input 
+                            type="checkbox"
+                            formControlName="is_admin"
+                        />
+                        <span>Es administrador</span>
+                    </label>
+                    <label class="white-text">....</label>
+                    <button 
+                        class="btn blue"
+                        (click)="btnNewUserClick()"
+                        [disabled]="!habilitar || !api.user?.is_admin"
+                        *ngIf="api.user?.is_admin">
+                        <i class="material-icons">add</i>
+                    </button>
+                    <button 
+                        class="btn blue"
+                        (click)="btnShowSearchClick()"
+                        [disabled]="!habilitar || !api.user?.is_admin"
+                        *ngIf="api.user?.is_admin">
+                        <i class="material-icons">search</i>
+                    </button>
+                    <button 
+                        class="btn blue" 
+                        (click)="btnSaveUserClick()"
+                        [disabled]="!habilitar">
+                        <i class="material-icons">save</i>
+                    </button>
+                    <button 
+                        class="btn blue" 
+                        (click)="btnDeleteUserClick()"
+                        [disabled]="id_user == 0 || !habilitar || !api.user?.is_admin"
+                        *ngIf="api.user?.is_admin">
+                        <i class="material-icons">delete</i>
+                    </button>
+                </div>
+            </div>
+            <div class="row" [hidden]="active_search">
+                <div class="input-field col s12">
+                    <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        class="validate"
+                        required
+                        formControlName="email"
+                    />
+                    <label for="email">Email</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        class="validate"
+                        required
+                        formControlName="password"
+                    />
+                    <label for="password">Contraseña</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <input
+                        id="confirm_password"
+                        name="confirm_password"
+                        type="password"
+                        class="validate"
+                        required
+                        formControlName="confirm_password"
+                    />
+                    <label for="confirm_password">Confirmar contraseña</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <input
+                        id="first_name"
+                        name="first_name"
+                        type="text"
+                        class="validate"
+                        required
+                        formControlName="first_name"
+                    />
+                    <label for="first_name">Nombre</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <input
+                        id="last_name"
+                        name="last_name"
+                        type="text"
+                        class="validate"
+                        required
+                        formControlName="last_name"
+                    />
+                    <label for="last_name">Apellidos</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <select 
+                        formControlName="type_document">
+                        <option 
+                            *ngFor="let type_document of types_document" 
+                            value="{{type_document.id_type_document}}">
+                            {{type_document.name}}
+                        </option>
+                    </select>
+                    <label>Tipo de documento</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <input
+                        id="document"
+                        name="document"
+                        type="text"
+                        class="validate"
+                        required
+                        formControlName="document"
+                    />
+                    <label for="document">Número de documento</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <input
+                        id="phone"
+                        name="phone"
+                        type="tel"
+                        class="validate"
+                        required
+                        formControlName="phone"
+                    />
+                    <label for="phone">Número de teléfono</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <input
+                        id="birthdate"
+                        name="birthdate"
+                        type="date"
+                        class="datepicker"
+                        formControlName="birthdate"
+                    />
+                    <label for="birthdate">Fecha de nacimiento</label>
+                </div>
+                <div class="input-field col s12">
+                    <input
+                        id="address"
+                        name="address"
+                        type="text"
+                        formControlName="address"
+                    />
+                    <label for="address">Dirección</label>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="row" [hidden]="!active_search">
+        <div class="col s10 l11">
+            <div class="input-field">
+                <input 
+                    id="search_value"
+                    name="search_value"
+                    type="text"
+                    required
+                    [formControl]="search_value"
+                />
+                <label for="search_value">Buscar</label>
+            </div>
+        </div>
+        <div class="col s2 l1">
+            <div class="input-field">
+                <button class="btn blue" (click)="btnSearchClick()">
+                    <i class="material-icons">search</i>
+                </button>
+            </div>
+        </div>
+        <div class="col s12">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Email</th>
+                        <th></th>
+                    </tr>
+                </thead>
+    
+                <tbody>
+                    <tr *ngFor="let user of search_result">
+                        <td>{{user.first_name}}</td>
+                        <td>{{user.last_name}}</td>
+                        <td>{{user.email}}</td>
+                        <td>
+                            <button class="btn blue" (click)="btnEditClick(user)">
+                                <i class="material-icons">edit</i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

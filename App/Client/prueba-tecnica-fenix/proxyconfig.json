@@ -1,0 +1,8 @@
+{
+    "/Proyectos/PruebaTecnica/*": {
+        "target": "http://localhost:80",
+        "secure": false,
+        "loglevel": "debug",
+        "changeOrigin": true
+    }
+}

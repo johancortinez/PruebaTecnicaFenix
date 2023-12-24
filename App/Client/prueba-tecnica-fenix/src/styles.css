@@ -1,0 +1,22 @@
+/* You can add global styles to this file, and also import other style files */
+@import "./../node_modules/materialize-css/dist/css/materialize.min.css";
+
+.btn {
+    margin: 1px;
+}
+
+
+
+.horizontal-center {
+    display: flex; 
+    align-items: center; 
+}
+
+.bottom-center {
+    display: flex; 
+    align-items: end; 
+}
+
+.spacer-10 {
+    width: 10rem;
+}
